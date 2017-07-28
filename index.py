@@ -33,12 +33,11 @@ class pageIndex(fw_page.Page):
         jumbotron.set("class","jumbotron")
         
         self.subElement(jumbotron,"h1").text = "Ceci est le titre !"
+        
         self.subElement(jumbotron,"p").text = \
             "Encoding python : %s" % sys.getdefaultencoding()
         self.subElement(jumbotron,"div").text = \
-            """
-            Quant à moi, je ne suis qu'un humble paragraphe
-            """
+            """Quant à moi, je ne suis qu'un humble paragraphe"""
         
         
         
