@@ -23,8 +23,8 @@ class pageIndex(fw_page.Page):
         
         self.addCDN()
         
-        # m = self.subElement(self.head, "meta")
-        # m.set("charset", "latin-1")
+        m = self.subElement(self.head, "meta")
+        m.set("charset", "utf-8")
         
         mainConteneur = self.subElement(self.body,"div")
         mainConteneur.set("class","container")
@@ -32,29 +32,17 @@ class pageIndex(fw_page.Page):
         jumbotron = self.subElement(mainConteneur,"div")
         jumbotron.set("class","jumbotron")
         
-        self.subElement(mainConteneur,"h1").text = "ôçùàñà"
+        self.subElement(jumbotron,"h1").text = "Ceci est le titre !"
+        self.subElement(jumbotron,"p").text = \
+            "Encoding python : %s" % sys.getdefaultencoding()
+        self.subElement(jumbotron,"div").text = \
+            """
+            Quant à moi, je ne suis qu'un humble paragraphe
+            """
         
         
         
 
 p = pageIndex()
-
-print(p.dump())
-
-# import xml.etree.ElementTree
-# arbo = xml.etree.ElementTree.ElementTree()
-
-
-# html = xml.etree.ElementTree.Element("html")
-# head = xml.etree.ElementTree.SubElement(html, "head")
-# title = xml.etree.ElementTree.SubElement(head, "title")
-# title.text = "Je suis un test !"
-# body = xml.etree.ElementTree.SubElement(html, "body")
-# xml.etree.ElementTree.SubElement(body, "h1").text = "Je fonctionne putain êçàùö!"
-# xml.etree.ElementTree.SubElement(body, "h1").text = "oh yeah"
-# xml.etree.ElementTree.SubElement(body, "p").text = "C'est un truc de ouh ouh ouf"
-
-# sortie = "<!DOCTYPE html>\n"
-# sortie += xml.etree.ElementTree.tostring(html, encoding="utf-8", method="html").decode("utf-8")
-
-# print(sortie)
+tmp = p.dump()
+print(tmp)

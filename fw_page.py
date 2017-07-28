@@ -17,6 +17,10 @@ if __name__ == "__main__":
 ################################################################################
 import xml.etree.ElementTree
 
+class Element:
+    def __init__(self):
+        pass
+
 class Page:
     def __init__(self):
         self.html = xml.etree.ElementTree.Element("html")
@@ -26,7 +30,7 @@ class Page:
         self.arbo._setroot(self.html)
         
         self.head = self.subElement(self.html, "head")
-        self.subElement(self.head, "meta").set("charset","latin-1")
+        # self.subElement(self.head, "meta").set("charset","latin-1")
         
         self.title = self.subElement(self.head, "title")
         
@@ -52,7 +56,8 @@ class Page:
     
     def dump(self):
         sortie = "<!DOCTYPE html>\n"
-        sortie += xml.etree.ElementTree.tostring(self.html, encoding="utf-8", method="html").decode("utf-8")
+        # sortie += xml.etree.ElementTree.tostring(self.html, encoding="utf-8", method="html").decode("utf-8")
+        sortie += xml.etree.ElementTree.tostring(self.html, method="html").decode("utf-8")
         
         return sortie
 
