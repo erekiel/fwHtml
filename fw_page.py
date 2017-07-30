@@ -17,9 +17,6 @@ if __name__ == "__main__":
 ################################################################################
 import xml.etree.ElementTree
 
-class Element:
-    def __init__(self):
-        pass
 
 class Page:
     def __init__(self):
@@ -46,17 +43,23 @@ class Page:
             if src.endswith(".js"):
                 tmp = self.subElement(self.head, "script")
                 tmp.set("src", src)
+                tmp.text = " " 
             elif src.endswith(".css"):
                 tmp = self.subElement(self.head, "link")
                 tmp.set("rel", "stylesheet")
                 tmp.set("href", src)
+                
+                
 
     def subElement(self, pere, elem):
         return xml.etree.ElementTree.SubElement(pere, elem)
     
     def dump(self):
         sortie = "<!DOCTYPE html>\n"
+        # il ne faut pas forcer l'encodage, sans quoi ça va merder au décodage
         # sortie += xml.etree.ElementTree.tostring(self.html, encoding="utf-8", method="html").decode("utf-8")
+        
+        # sortie += xml.etree.ElementTree.tostring(self.html, method="html").decode("utf-8")
         sortie += xml.etree.ElementTree.tostring(self.html, method="html").decode("utf-8")
         
         return sortie

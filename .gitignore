@@ -1,3 +1,5 @@
 Thumbs.db
 __pycache__/
 *.pyc
+error_fwHtml_apache.log
+logs/

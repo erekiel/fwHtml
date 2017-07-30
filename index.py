@@ -15,6 +15,8 @@ import cgitb
 cgitb.enable()
 print("Content-Type: text/html\n\n")
 ################################################################################
+
+
 import fw_page
 
 class pageIndex(fw_page.Page):
@@ -23,8 +25,8 @@ class pageIndex(fw_page.Page):
         
         self.addCDN()
         
-        m = self.subElement(self.head, "meta")
-        m.set("charset", "utf-8")
+        # m = self.subElement(self.head, "meta")
+        # m.set("charset", "utf-8")
         
         mainConteneur = self.subElement(self.body,"div")
         mainConteneur.set("class","container")
@@ -36,9 +38,13 @@ class pageIndex(fw_page.Page):
         
         self.subElement(jumbotron,"p").text = \
             "Encoding python : %s" % sys.getdefaultencoding()
+        self.subElement(jumbotron,"p").text = \
+            """Quant à moi, je ne suis qu'un humble paragraphe P."""
         self.subElement(jumbotron,"div").text = \
-            """Quant à moi, je ne suis qu'un humble paragraphe"""
-        
+"""Moi je ne suis qu'un div, et je permet de tester l'encodage : ùàïôçù."""
+        tmp = self.subElement(jumbotron,"a")
+        tmp.text = "Page de test 2" 
+        tmp.set("href", "test02.py")
         
         
 
