@@ -46,6 +46,11 @@ class pageIndex(fw_page.Page):
         tmp.text = "Page de test 2" 
         tmp.set("href", "test02.py")
         
+        tmp = self.subElement(jumbotron,"p")
+        tmp = self.subElement(tmp,"a")
+        tmp.text = "Les oignons de twine" 
+        tmp.set("href", "oignons.html")
+        
         
 
 p = pageIndex()
