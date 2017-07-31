@@ -42,7 +42,9 @@ class pageIndex(fw_page.Page):
             """Quant à moi, je ne suis qu'un humble paragraphe P."""
         self.subElement(jumbotron,"div").text = \
 """Moi je ne suis qu'un div, et je permet de tester l'encodage : ùàïôçù."""
-        tmp = self.subElement(jumbotron,"a")
+
+        tmp = self.subElement(jumbotron,"p")
+        tmp = self.subElement(tmp,"a")
         tmp.text = "Page de test 2" 
         tmp.set("href", "test02.py")
         
@@ -50,6 +52,11 @@ class pageIndex(fw_page.Page):
         tmp = self.subElement(tmp,"a")
         tmp.text = "Les oignons de twine" 
         tmp.set("href", "oignons.html")
+        
+        tmp = self.subElement(jumbotron,"p")
+        tmp = self.subElement(tmp,"a")
+        tmp.text = "Objet Carousel" 
+        tmp.set("href", "test03.py")
         
         
 
