@@ -13,7 +13,8 @@ import sys
 import cgitb
 
 cgitb.enable()
-print("Content-Type: text/html\n\n")
+if __name__ == "__main__" : 
+    print("Content-Type: text/html\n\n")
 ################################################################################
 
 
