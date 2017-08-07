@@ -59,6 +59,11 @@ class pageIndex(fw_page.Page):
         tmp.text = "Objet Carousel" 
         tmp.set("href", "test03.py")
         
+        tmp = self.subElement(jumbotron,"p")
+        tmp = self.subElement(tmp,"a")
+        tmp.text = "Page avec authentification" 
+        tmp.set("href", "fw_pageAuth.py")
+        
         
 
 p = pageIndex()

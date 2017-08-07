@@ -1,2 +1,0 @@
-[Fri Jul 28 21:01:33.175464 2017] [cgi:error] [pid 5072:tid 904] (OS 2)Le fichier spécifié est introuvable.  : [client ::1:64044] couldn't create child process: 720002: index.py
-[Fri Jul 28 21:01:33.175464 2017] [cgi:error] [pid 5072:tid 904] (OS 2)Le fichier spécifié est introuvable.  : [client ::1:64044] AH01223: couldn't spawn child process: G:/www/fwHtml/index.py

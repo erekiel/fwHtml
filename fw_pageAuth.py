@@ -41,17 +41,30 @@ class pageAuth(fw_page.Page):
         self.subElement(tmpDiv,"h1").text = "Essai page authentification"
         self.title.text = "Authentification"
         
+        l = self.subElement(tmpDiv, "a")
+        l.set("href", "fw_pageLogin.py")
+        l.text = "Se Logger"
+        
+        # ceci dit : tout étant dans os.environ, il vaudrait mieux tester direct dans un 'isAuth()'
         if "HTTP_COOKIE" in os.environ.keys():       
             tmpDiv = self.subElement(self.mainCtn,"div")
-            self.subElement(tmpDiv,"h1").text = "Cookie trouvé !"
+            self.subElement(tmpDiv,"h2").text = "Cookies trouvés !"
             lstInfo = self.subElement(tmpDiv, "div")
-            lstInfo = self.subElement(lstInfo, "li")
+            lstInfo = self.subElement(lstInfo, "ul")
             for v in os.environ["HTTP_COOKIE"].split("; "):
-                tmp = self.subElement(lstInfo, "ul")
-                tmp.text = "%s : %s" % v.split("=")
-        
+                tmp = self.subElement(lstInfo, "li")
+                if "=" in v : 
+                    tmp.text = "%s : %s" % (v.split("=")[0], v.split("=")[1])
+                else : 
+                    tmp.text = v
+        else : 
+            tmpDiv = self.subElement(self.mainCtn,"div")
+            self.subElement(tmpDiv,"h2").text = "Pas de cookie"
+            self.subElement(tmpDiv,"p").text = "C'est là que tu te fais rediriger normalement"
+            
         
         lstInfo = self.subElement(self.mainCtn, "div")
+        self.subElement(lstInfo,"h2").text = "Variables d'environnement"
         lstInfo = self.subElement(lstInfo, "ul")
         for i in os.environ.items():
             tmp = self.subElement(lstInfo, "li")

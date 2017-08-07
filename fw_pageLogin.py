@@ -53,12 +53,9 @@ class pageAuth(fw_page.Page):
         
         self.addCDN()
         
-        tmp = self.subElement(self.head, "script")
-        tmp.set("src", "js/cookies.js")
-        tmp.text = " " 
-        tmp = self.subElement(self.head, "script")
-        tmp.set("src", "js/crypto.js")
-        tmp.text = " " 
+        self.addScr("js/cookies.js")
+        self.addScr("js/crypto.js")
+        self.addScr("js/auth.js")
         
         # cgi
         self.form = cgi.FieldStorage()        
@@ -89,49 +86,17 @@ class pageAuth(fw_page.Page):
         self.formInput(formulaire, "", "submit", "btGoLogin", classCSS = "btn")
         
         
-        scr = self.subElement(self.body, "script")
+        tmp = self.subElement(blockLogin, "div")
+        tmp.set("id", "resultat")
+        tmp.text = "resultat"
         
-        scr.text = """
-function getAuth(){ 
-    //alert(SHA256($("#pwd").val()));
-    $.ajax({
-            method: "POST",
-                url: "fw_authentification.py",
-                data: { 
-                    pwd: SHA256($("#pwd").val()),
-                    usr: $("#usr").val(),
-                }
-        })
-        .done(
-            function(reponse) {
-                if($.trim(reponse) != ""){
-                    setCookie("idSession", $.trim(reponse), 1);
-                    setCookie("usr", $("#usr").val(), 1);
-                    $("#resultat").html("Bienvenue " + $("#usr").val());
-                    
-                    // $("#resultat").html("idSession : " + reponse);
-                    // $("#resultat").html($("#resultat").html() + "<p>cookie : " + document.cookie + "</p>");
-                    
-                    var p = getCookie("origine");
-                    //alert("cookie origine : " + p);
-                    
-                    if(p){
-                        deleteCookie("origine");
-                        document.location = p;
-                    }
-                    
-                }
-                else{
-                    $("#resultat").html("identification incorrecte...");
-                }
-        });
-        
-    return false;
-}
-
-$("#btGoLogin").click(getAuth);
-$("#usr").focus();
-"""
+        # scr = self.subElement(self.body, "script")
+    
+    def addScr(self, src):
+        tmp = self.subElement(self.head, "script")
+        tmp.set("src", src)
+        tmp.text = " "
+        return tmp
     
     def formInput(self, blockParent, libelle, type, nom, classCSS="form-control"):
         tmp = self.subElement(blockParent, "div")
