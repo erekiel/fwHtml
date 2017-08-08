@@ -20,8 +20,10 @@ if __name__ == "__main__":
     cmd = ""
     
     if os.path.isfile(os.path.join(fw_authentification.repSessions, "%s.txt" % infSession.usr)):
-        cmd = "rm \"%s\"" % os.path.join(fw_authentification.repSessions, "%s.txt" % infSession.usr)
-        os.system(cmd)
+        # cmd = "rm \"%s\"" % os.path.join(fw_authentification.repSessions, "%s.txt" % infSession.usr)
+        # os.system(cmd)
+        with open(os.path.join(fw_authentification.repSessions, "%s.txt" % infSession.usr), "w") as f:
+            f.write("")
     
     r = {}
     

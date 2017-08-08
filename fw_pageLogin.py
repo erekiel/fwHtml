@@ -81,12 +81,14 @@ class pageAuth(fw_page.Page):
         tmp.set("class", "col-md-10")
         self.subElement(tmp, "h2").text = "Login"
         
+        # block déco
         tmp = self.subElement(ligneLogin, "div")
         tmp.set("class", "col-md-2")
         tmp = self.subElement(tmp, "div")
         tmp.text = "Se déconnecter"
         tmp.set("id", "btUnLog")
         tmp.set("class", "btn")
+        ###########
         
         formulaire = self.subElement(blockLogin, "form")
         
@@ -97,23 +99,24 @@ class pageAuth(fw_page.Page):
         self.formInput(formulaire, "Mot de passe", "password", "pwd")
         self.formInput(formulaire, "", "submit", "btGoLogin", classCSS = "btn")
         
+        tmp = self.subElement(formulaire, "input")
+        tmp.set("type", "hidden")
+        tmp.set("name", "redirige")
+        tmp.set("id", "redirige")
+        
+        if self.form.getvalue("redirige") :
+            self.redirection = self.form.getvalue("redirige")
+        else : 
+            self.redirection = ""
+        tmp.set("value", self.redirection)
+   
         
         tmp = self.subElement(blockLogin, "div")
         tmp.set("id", "resultat")
-        tmp.text = "resultat"
-        
-        
-
-        
-        
-        
+        # tmp.text = "resultat"
         # scr = self.subElement(self.body, "script")
     
-    def addScr(self, src):
-        tmp = self.subElement(self.head, "script")
-        tmp.set("src", src)
-        tmp.text = " "
-        return tmp
+    
     
     def formInput(self, blockParent, libelle, type, nom, classCSS="form-control"):
         tmp = self.subElement(blockParent, "div")

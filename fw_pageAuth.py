@@ -1,7 +1,6 @@
 #! /usr/bin/python3
 # coding:utf-8
 
-
 ################################################################################
 #                                       Auteur : Mickaël DUVAL
 #                                       juillet 2017
@@ -28,11 +27,10 @@ class pageAuth(fw_page.Page):
         fw_page.Page.__init__(self)
         
         self.addCDN()
+        self.addScr("js/cookies.js")
+        self.addScr("js/crypto.js")
+        self.addScr("js/auth.js")
         
-        # cgi
-        self.form = cgi.FieldStorage()        
-        
-        # test container
         self.mainCtn = self.subElement(self.body, "div")
         self.mainCtn.set("class", "container")
         
@@ -42,53 +40,34 @@ class pageAuth(fw_page.Page):
         self.subElement(tmpDiv,"h1").text = "Essai page authentification"
         self.title.text = "Authentification"
         
-        l = self.subElement(tmpDiv, "a")
-        l.set("href", "fw_pageLogin.py")
-        l.text = "Se Logger"
         
-        # ceci dit : tout étant dans os.environ, il vaudrait mieux tester direct dans un 'isAuth()'
-        # if "HTTP_COOKIE" in os.environ.keys():       
-            # tmpDiv = self.subElement(self.mainCtn,"div")
-            # self.subElement(tmpDiv,"h2").text = "Cookies trouvés !"
-            # lstInfo = self.subElement(tmpDiv, "div")
-            # lstInfo = self.subElement(lstInfo, "ul")
-            # for v in os.environ["HTTP_COOKIE"].split("; "):
-                # tmp = self.subElement(lstInfo, "li")
-                # if "=" in v : 
-                    # tmp.text = "%s : %s" % (v.split("=")[0], v.split("=")[1])
-                # else : 
-                    # tmp.text = v
-        # else : 
-            # tmpDiv = self.subElement(self.mainCtn,"div")
-            # self.subElement(tmpDiv,"h2").text = "Pas de cookie"
-            # self.subElement(tmpDiv,"p").text = "C'est là que tu te fais rediriger normalement"
-            
+        # self.authentif = True si t'es ok
         self.authentif = fw_authentification.auth(printer = False)
         if self.authentif:
             self.subElement(self.mainCtn,"h2").text = "Utilisateur autorisé !"
         else : 
-            self.subElement(self.mainCtn,"h2").text = "Utilisateur pas authentifié"
-            script = self.subElement(self.body, "script")
-            script.text = """
-                $(function(){
-                    document.location = "%s"
-                });
-            """ % "fw_pageLogin.py"
-
-        
-        lstInfo = self.subElement(self.mainCtn, "div")
-        self.subElement(lstInfo,"h2").text = "Variables d'environnement"
-        lstInfo = self.subElement(lstInfo, "ul")
-        for i in os.environ.items():
-            tmp = self.subElement(lstInfo, "li")
-            tmp.text = "%s : %s" % i        
-        
-        # script = self.subElement(self.body, "script")
-        # script.text = """
-            # $(function(){
+            self.subElement(self.mainCtn,"h5").text = "Redirection en cours..."
+            # passer la page en param redirige après login
+            self.rediriger("fw_pageLogin.py?redirige=fw_pageAuth.py")
+            # ne plus rien afficher sur la page
+            return
                 
-            # });
-        # """
+        # block déconnexion
+        tmp = self.subElement(tmpDiv, "div")
+        tmp.set("class", "col-md-2")
+        tmp = self.subElement(tmp, "div")
+        tmp.text = "Se déconnecter"
+        tmp.set("id", "btUnLog")
+        tmp.set("class", "btn")
+        ###########
+        
+        # lstInfo = self.subElement(self.mainCtn, "div")
+        # self.subElement(lstInfo,"h2").text = "Variables d'environnement"
+        # lstInfo = self.subElement(lstInfo, "ul")
+        # for i in os.environ.items():
+            # tmp = self.subElement(lstInfo, "li")
+            # tmp.text = "%s : %s" % i        
+        
 
         
 if __name__ == "__main__" : 

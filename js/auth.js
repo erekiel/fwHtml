@@ -11,6 +11,7 @@ function getAuth(){
                 data: { 
                     pwd: SHA256($("#pwd").val()),
                     usr: $("#usr").val(),
+                    redirige: $("#redirige").val(),
                 }
         })
         .done(
@@ -49,7 +50,11 @@ function unLog(){
                 
                 if(reponse.redirige != undefined && reponse.redirige != ""){
                     document.location = reponse.redirige;
+                    document.location.reload();
                 } 
+                else{
+                    document.location.reload();
+                }
         });
 
     

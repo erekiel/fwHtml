@@ -33,6 +33,7 @@ class Page:
         
         self.body = self.subElement(self.html, "body")
         
+        
     def addCDN(self):
         for src in [
             "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js",
@@ -41,18 +42,38 @@ class Page:
                     ]:
                     
             if src.endswith(".js"):
-                tmp = self.subElement(self.head, "script")
-                tmp.set("src", src)
-                tmp.text = " " 
+                self.addScr(src)
+                # tmp = self.subElement(self.head, "script")
+                # tmp.set("src", src)
+                # tmp.text = " " 
             elif src.endswith(".css"):
-                tmp = self.subElement(self.head, "link")
-                tmp.set("rel", "stylesheet")
-                tmp.set("href", src)
+                self.addCSS(src)
+                # tmp = self.subElement(self.head, "link")
+                # tmp.set("rel", "stylesheet")
+                # tmp.set("href", src)
                 
-                
+    def addScr(self, src):
+        tmp = self.subElement(self.head, "script")
+        tmp.set("src", src)
+        tmp.text = " "
+        return tmp
+        
+    def addCSS(self, src):
+        tmp = self.subElement(self.head, "link")
+        tmp.set("rel","stylesheet")
+        tmp.set("href", src)
+        return tmp
 
     def subElement(self, pere, elem):
         return xml.etree.ElementTree.SubElement(pere, elem)
+        
+    def rediriger(self, url):
+        script = self.subElement(self.body, "script")
+        script.text = """
+            $(function(){
+                document.location = "%s"
+            });
+        """ % url 
     
     def dump(self):
         sortie = "<!DOCTYPE html>\n"

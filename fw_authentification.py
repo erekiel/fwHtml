@@ -30,6 +30,8 @@ class infoSession:
         self.pwd = ""
         self.ip = ""
         self.idSession = ""
+        
+        self.redirige = ""
                 
         # déjà, a-t-on un cookie avec un id session ?
         if "HTTP_COOKIE" in os.environ.keys():
@@ -49,10 +51,15 @@ class infoSession:
             self.usr = form.getvalue("usr")
         if not self.pwd:     
             self.pwd = form.getvalue("pwd")
-                    
+        
+        self.redirige = form.getvalue("redirige")
+                 
 
 # pour gratter quelques lignes de code
 def repondre(reponse, comm, bRetour, printer = True):
+    if not bRetour:
+        reponse["redirige"] = ""
+        
     if "commentaire" not in reponse.keys():
         reponse["commentaire"] = ""
     reponse["commentaire"] += comm
@@ -62,19 +69,17 @@ def repondre(reponse, comm, bRetour, printer = True):
         
                     
 # utilise le os.environ et fait tout le nécessaire, ou renvoie du vide si c'est non
-def auth(redirige = "", printer = True):
+def auth(printer = True):
     # bon, il me faut un usr, une ip, et soit un idSession, soit un pwd
-    idSession = None
-    usr = None
-    pwd = None
-    ip = None
+    # idSession = None
+    # usr = None
+    # pwd = None
+    # ip = None
     
     # si tu m'envoie un pwd, je renvoie un idSession
     reponse = {}
     reponse["idSession"] = ""
-    reponse["commentaire"] = ""
-    reponse["redirige"] = redirige
-    
+    reponse["commentaire"] = ""   
     
     if not os.path.isdir(repSessions):
         os.system("mkdir %s" % repSessions)
@@ -83,6 +88,8 @@ def auth(redirige = "", printer = True):
         # reponse["redirige"]
         
     i = infoSession()
+    reponse["redirige"] = i.redirige
+    # reponse["commentaire"] += "redirection : %s -- " % i.redirige
     
     # ton idSession est correk
     if i.idSession : 
@@ -93,7 +100,7 @@ def auth(redirige = "", printer = True):
             if k != clef(ip, u):
                 return repondre(reponse, "Ecoute %s, ça correspond pas à la session sur le serveur..." % i.usr, False, printer)
             else :
-                return repondre(reponse, "Je vois que Monsieur %s est déjà logg" % i.usr, True, printer)
+                return repondre(reponse, "%s est déjà loggé" % i.usr, True, printer)
         else : 
             return repondre(reponse, "idSession moisi dis donc : le fichier %s.txt existe pas" % i.usr, False, printer)
             
@@ -107,14 +114,15 @@ def auth(redirige = "", printer = True):
                 f.write("%s %s %s\n" % (i.usr, i.ip, reponse["idSession"]))
             return repondre(reponse, "Bienvenue %s" % i.usr, True, printer)
         else : 
-            return repondre(reponse, "mot de passe incorrect %s : %s " % (i.usr, i.pwd), False, printer)
+            return repondre(reponse, "mot de passe incorrect", False, printer) # %s : %s " % (i.usr, i.pwd), False, printer)
             
     else : 
         
         # for it in os.environ.items():
             # reponse["commentaire"] += "%s : %s" % it
         
-        return repondre(reponse, "pas usr ou pas pwd ou pas ip : [%s] [%s] [%s]" % (i.usr, i.pwd, i.ip), False, printer)
+        # return repondre(reponse, "pas usr ou pas pwd ou pas ip : [%s] [%s] [%s]" % (i.usr, i.pwd, i.ip), False, printer)
+        return repondre(reponse, "ça manque un peu d'info tout ça...", False, printer)
     
     return repondre(reponse,"J'aurais pas du arriver ici : [usr:%s] [pwd:%s] [ip:%s]" % (i.usr, i.pwd, i.ip), False, printer)
 
