@@ -70,14 +70,26 @@ class pageAuth(fw_page.Page):
         tmp.set("class", "col-md-4")
         
         tmp = self.subElement(self.mainCtn, "div")
-        tmp.set("class", "col-md-3")
+        tmp.set("class", "col-md-4")
         blockLogin = self.subElement(tmp, "div")
         blockLogin.set("class", "bloc")
         blockLogin.set("id", "blockLogin")
         
-        self.subElement(blockLogin, "h2").text = "Login"
+        ligneLogin = self.subElement(blockLogin, "div")
+        ligneLogin.set("class", "row")
+        tmp = self.subElement(ligneLogin, "div")
+        tmp.set("class", "col-md-10")
+        self.subElement(tmp, "h2").text = "Login"
+        
+        tmp = self.subElement(ligneLogin, "div")
+        tmp.set("class", "col-md-2")
+        tmp = self.subElement(tmp, "div")
+        tmp.text = "Se déconnecter"
+        tmp.set("id", "btUnLog")
+        tmp.set("class", "btn")
         
         formulaire = self.subElement(blockLogin, "form")
+        
         formulaire.set("action", "")
         formulaire.set("method", "POST")
         
@@ -89,6 +101,11 @@ class pageAuth(fw_page.Page):
         tmp = self.subElement(blockLogin, "div")
         tmp.set("id", "resultat")
         tmp.text = "resultat"
+        
+        
+
+        
+        
         
         # scr = self.subElement(self.body, "script")
     

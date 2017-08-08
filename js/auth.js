@@ -1,44 +1,10 @@
 $(function(){
-
-function getAuth(){ 
-    //alert(SHA256($("#pwd").val()));
-    $.ajax({
-            method: "POST",
-                url: "fw_authentification.py",
-                data: { 
-                    pwd: SHA256($("#pwd").val()),
-                    usr: $("#usr").val(),
-                }
-        })
-        .done(
-            function(reponse) {
-                // alert(reponse);
-                if($.trim(reponse) != ""){
-                    setCookie("idSession", $.trim(reponse), 1);
-                    setCookie("usr", $("#usr").val(), 1);
-                    $("#resultat").html("Bienvenue " + $("#usr").val());
-                    
-                    // $("#resultat").html("idSession : " + reponse);
-                    // $("#resultat").html($("#resultat").html() + "<p>cookie : " + document.cookie + "</p>");
-                    
-                    var p = getCookie("origine");
-                    //alert("cookie origine : " + p);
-                    
-                    if(p){
-                        deleteCookie("origine");
-                        document.location = p;
-                    }
-                    
-                }
-                else{
-                    $("#resultat").html("identification incorrecte...");
-                }
-        });
-        
-    return false;
+    
+function msg(m){
+    $("#resultat").html(m);
 }
 
-function getAuth2(){ 
+function getAuth(){ 
     $.ajax({
             method: "POST",
                 url: "fw_authentification.py",
@@ -50,13 +16,13 @@ function getAuth2(){
         .done(
             function(reponse) {
                 reponse = JSON.parse(reponse);
-                $("#resultat").html(reponse.commentaire);
+                msg(reponse.commentaire);
                 if(reponse.idSession != ""){
                     setCookie("idSession", $.trim(reponse.idSession), 1);
                     setCookie("usr", $("#usr").val(), 1);
                 }
                 
-                if(reponse.redirige != ""){
+                if(reponse.redirige != undefined && reponse.redirige != ""){
                     document.location = reponse.redirige;
                 } 
         });
@@ -64,7 +30,35 @@ function getAuth2(){
     return false;
 }
 
-$("#btGoLogin").click(getAuth2);
+function unLog(){
+    $.ajax({
+            method: "POST",
+                url: "fw_finSession.py",
+        })
+        .done(
+            function(reponse) {
+                reponse = JSON.parse(reponse);
+                msg(reponse.commentaire);
+                
+                if(getCookie("idSession")){
+                    deleteCookie("idSession");
+                }
+                if(getCookie("usr")){
+                    deleteCookie("usr");
+                }        
+                
+                if(reponse.redirige != undefined && reponse.redirige != ""){
+                    document.location = reponse.redirige;
+                } 
+        });
+
+    
+    return false;
+    
+}
+
+$("#btGoLogin").click(getAuth);
+$("#btUnLog").click(unLog);
 $("#usr").focus();
 
 
